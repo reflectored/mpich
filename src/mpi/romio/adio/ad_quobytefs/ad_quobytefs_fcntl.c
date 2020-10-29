@@ -14,7 +14,7 @@ void ADIOI_QUOBYTEFS_Fcntl(ADIO_File fd, int flag, ADIO_Fcntl_t * fcntl_struct, 
     static char myname[] = "ADIOI_QUOBYTEFS_FCNTL";
     struct stat file_stat;
     const char *filepath = ADIOI_QUOBYTEFSI_GetVolumeAndPath(fd->filename);
-    if (!(filepath > fd->filename)) {
+    if (strcmp(filepath, fd->filename)) {
         *error_code = ADIOI_Err_create_code(myname, fd->filename, EINVAL);
         return;
     }
