@@ -312,6 +312,11 @@ static void ADIO_FileSysType_fncall(const char *filename, int *fstype, int *erro
 
     *error_code = MPI_SUCCESS;
 
+#ifdef ROMIO_QUOBYTEFS
+    *fstype = ADIO_QUOBYTEFS;
+    return;
+#endif
+
 #ifdef ROMIO_HAVE_STRUCT_STATVFS_WITH_F_BASETYPE
     /* rare: old solaris machines */
     retry_cnt = 0;
@@ -540,8 +545,6 @@ static void ADIO_FileSysType_fncall(const char *filename, int *fstype, int *erro
     *fstype = ADIO_NTFS;        /* only supported FS on Windows */
 #elif defined(ROMIO_NFS)
     *fstype = ADIO_NFS;
-#elif defined(ROMIO_QUOBYTEFS)
-    *fstype = ADIO_QUOBYTEFS
 #elif defined(ROMIO_UFS)
     *fstype = ADIO_UFS;
 #else
