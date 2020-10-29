@@ -45,14 +45,19 @@ struct ADIOI_Fns_struct ADIO_QUOBYTEFS_operations = {
     ADIOI_QUOBYTEFS_SetLock     /* SetLock */
 };
 
+/**
+ * input: //registry.address/[volume/]path
+ * output: registry.address
+ * input: /[somepath]
+ * output: NULL
+ */
 static char *extract_registry(const char *filename, int *error_code)
 {
-    /* input: //registry.address/[volume/]path
-     * output: registry.address                */
     static char myname[] = "extract_registry";
     const char *prefix = "//";
     int prefix_size = strlen(prefix);
-    if (!strncmp(filename, prefix, prefix_size)) {
+    if (strncmp(filename, prefix, prefix_size)) {
+        *error_code = MPI_SUCCESS;
         return NULL;
     }
     char *extract_filename = (char *) filename + prefix_size;
